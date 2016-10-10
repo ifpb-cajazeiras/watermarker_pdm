@@ -18,6 +18,11 @@
 			controllerAs: 'vm'
 
 		})
+		.when('/gallery', {
+			templateUrl: 'views/gallery.html',
+			controller: 'galleryCtrl',
+			controllerAs: 'vm'
+		})
 		.otherwise({redirectTo: '/'});
 
 	});

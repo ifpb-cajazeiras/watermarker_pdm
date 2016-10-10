@@ -1,14 +1,11 @@
-.picture{
+.picWrapper{
 	overflow:hidden;
 	
 	/*min-width:200px;*/
 
-
-
-
 }
 
-#pic{
+.pic{
 	margin: 0 auto;
 	display:block;
 	width:100%;
