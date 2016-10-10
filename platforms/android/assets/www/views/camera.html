@@ -18,6 +18,8 @@
 
         </div>
 
+        
+
         <div class="mybutton col-xs-12">
 
             <div class="picture">
@@ -25,6 +27,19 @@
             </div>
 
         </div>
+
+        <div class="mybutton col-xs-12 col-sm-12 col-md-12 col-lg-12">
+            <label>Salvar com nome:</label>
+            <input type="text" ng-model="vm.pictureName" />
+        </div>
+
+        <div class="mybutton col-xs-12 col-sm-12 col-md-12 col-lg-12">
+
+            <button type="button" class="btn btn-lg btn-default" ng-click="vm.savePicture()" >Salvar {{vm.pictureName + ".png"}}</button>
+        
+        </div>
+
+
 
 
 

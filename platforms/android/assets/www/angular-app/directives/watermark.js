@@ -1,7 +1,7 @@
 (function(){
 
 	var timeout;
-	var delay = 2000;
+	var delay = 500;
 
 	angular.module("watermarker")
 	.directive("watermark", function(){
@@ -26,6 +26,9 @@
 						
 						$("#pic").watermark({
 							text:newval,
+							gravity:'nw',
+							textSize:32,
+							textWidth:360,
 							done:function(url){
 								
 								scope.$apply(function(){
