@@ -9,7 +9,9 @@
 		var vm = this;
 		
 		vm.title = "Camera Page";
-		vm.picture = {};
+		vm.picture = null;
+		vm.lastPicture = null;
+		vm.text = "";
 
 		vm.takePicture = takePicture;
 
@@ -17,8 +19,10 @@
 			$scope.$apply(function(){
 				console.log("foto tirada");
 				vm.picture = imgData;
+				vm.lastPicture = imgData;
 			});
 		}
+
 		function fail(msg){
 			console.log("falha ao tirar foto");
 			console.log(msg);
@@ -33,9 +37,6 @@
 
 			});
 		}
-
-		
-
 	}
 
 })();
