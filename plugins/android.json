@@ -15,9 +15,6 @@
         },
         "cordova-plugin-file": {
             "PACKAGE_NAME": "io.cordova.hellocordova"
-        },
-        "cordova-base64-to-gallery": {
-            "PACKAGE_NAME": "io.cordova.hellocordova"
         }
     },
     "dependent_plugins": {

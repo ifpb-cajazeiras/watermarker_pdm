@@ -18,11 +18,14 @@
 
 		vm.savePicture = savePicture;
 
+		vm.feedback = "";
+
 		function pictureTaken(imgData){
 			$scope.$apply(function(){
 				console.log("foto tirada");
 				vm.picture = imgData;
 				vm.lastPicture = imgData;
+				vm.feedback = "";
 			});
 		}
 
@@ -42,31 +45,76 @@
 			});
 		}
 
+		function savePicture(){
+			var newFileName = vm.pictureName + ".png";
+			var myFolderApp = "Pictures";
 
-		function saveBase64Img(){
+			getPictureFolder(function(pictureFolder){
 
-			var imgData = vm.picture.replace("data:image/jpeg;base64,", "");
+				writeFileInDirectory(pictureFolder, function(){
+					
+					$scope.$apply(function(){
+						vm.feedback = "sucesso ao salvar";
+					});
 
-			console.log("tentar salvar " + imgData);
-			cordova.base64ToGallery(imgData, {
+				});
 
-				prefix:'logo_',
-				mediaScanner:true
+			});
 
-			}, function(path){
-				console.log("sucesso ao salvar");
-				console.log(path);
-			}, function(err){
+			function getPictureFolder(callback){
 
-				console.log("erro ao salvar", err);
+				window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, function(fileSys) { 
+					console.log("fileSys", fileSys);
+					fileSys.root.getDirectory( myFolderApp,
+						{create:true, exclusive: false},
+						callback,resOnError);
 
-			} );
+				}, resOnError);
+
+			}
+
+			function writeFileInDirectory(dir, success){
+				
+				dir.getFile(newFileName, {create:true}, function(file){
+
+					console.log("criou arquivo vazio");
+
+					convertBase64ToFile(vm.picture, function(pngBlob){
+
+						file.createWriter(function(fw){
+
+							fw.seek(fw.length);
+							fw.write(pngBlob);
+							console.log("salvou arquivo");
+
+							success();
+
+						}, function(err){
+							console.log("falha ao criar writer", err);
+						});
+
+					});
+
+				});
+
+			}
+
+			function successMove(entry){
+				console.log("sucesso ao salvar imagem");
+				console.log(entry);
+			}
+
+			function resOnError(error){
+				console.log("erro ao salvar imagem");
+				console.log(error);
+			}
+
 		}
-		
+
+
 		function convertBase64ToFile(data, callback){
 
 			var imgData = data.replace("data:image/jpeg;base64,", "");
-			//var the_file = new Blob([window.atob(imgData)],  {type: 'image/png', encoding: 'utf-8'});
 
 			b64toBlob(imgData, callback);
 
@@ -94,82 +142,6 @@
 			    callback(blob);
 			}
 			
-		}
-
-		
-
-		function decodeBase64Image(data, callback){
-			var imgData = data.replace("data:image/jpeg;base64,", "");
-			callback( new Buffer(imgData, 'base64') );
-		}
-
-		function savePicture(){
-			var newFileName = vm.pictureName + ".png";
-			var myFolderApp = "Pictures";
-
-			//var imgData = vm.picture.replace("data:image/jpeg;base64,", "");
-			//var the_file = new Blob([window.atob(imgData)],  {type: 'image/png', encoding: 'utf-8'});
-
-
-
-			//save();
-
-			/*function save(){
-				window.resolveLocalFileSystemURL(cordova.file.dataDirectory, resolveOnSuccess, resOnError);
-			}*/
-
-			getPictureFolder(function(pictureFolder){
-
-				writeFileInDirectory(pictureFolder);
-
-			});
-
-			function getPictureFolder(callback){
-
-				window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, function(fileSys) { 
-					console.log("fileSys", fileSys);
-					fileSys.root.getDirectory( myFolderApp,
-						{create:true, exclusive: false},
-						callback,resOnError);
-
-				}, resOnError);
-
-			}
-
-			function writeFileInDirectory(dir){
-				
-				dir.getFile(newFileName, {create:true}, function(file){
-
-					console.log("criou arquivo vazio");
-
-					convertBase64ToFile(vm.picture, function(pngBlob){
-
-						file.createWriter(function(fw){
-
-							fw.seek(fw.length);
-							fw.write(pngBlob);
-							console.log("salvou arquivo");
-
-						}, function(err){
-							console.log("falha ao criar writer", err);
-						});
-
-					});
-
-				});
-
-			}
-
-			function successMove(entry){
-				console.log("sucesso ao salvar imagem");
-				console.log(entry);
-			}
-
-			function resOnError(error){
-				console.log("erro ao salvar imagem");
-				console.log(error);
-			}
-
 		}
 
 	}

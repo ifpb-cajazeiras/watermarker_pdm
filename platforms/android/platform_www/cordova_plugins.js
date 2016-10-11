@@ -204,19 +204,6 @@ module.exports = [
             "cordova"
         ],
         "runs": true
-    },
-    {
-        "id": "cordova-base64-to-gallery.object.assign-polyfill",
-        "file": "plugins/cordova-base64-to-gallery/www/object.assign-polyfill.js",
-        "pluginId": "cordova-base64-to-gallery"
-    },
-    {
-        "id": "cordova-base64-to-gallery.base64ToGallery",
-        "file": "plugins/cordova-base64-to-gallery/www/base64ToGallery.js",
-        "pluginId": "cordova-base64-to-gallery",
-        "clobbers": [
-            "cordova.base64ToGallery"
-        ]
     }
 ];
 module.exports.metadata = 
@@ -225,8 +212,7 @@ module.exports.metadata =
     "cordova-plugin-whitelist": "1.3.0",
     "cordova-plugin-compat": "1.0.0",
     "cordova-plugin-camera": "2.3.0",
-    "cordova-plugin-file": "4.3.0",
-    "cordova-base64-to-gallery": "4.1.1"
+    "cordova-plugin-file": "4.3.0"
 };
 // BOTTOM OF METADATA
 });
