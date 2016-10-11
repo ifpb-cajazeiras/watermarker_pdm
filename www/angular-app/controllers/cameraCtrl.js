@@ -14,7 +14,7 @@
 		vm.text = "";
 		vm.pictureName = ""; 
 		vm.fontSize = 130;
-		vm.textWidth = 300;
+		vm.textWidth = 1000;
 
 		vm.takePicture = takePicture;
 

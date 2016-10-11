@@ -8,14 +8,6 @@
 
 		return function(scope, element, attrs){
 
-			scope.$watch('vm.fontSize', function(newval, oldval){
-
-				if( !isNaN(newval) ){
-					updatePicture(scope, scope.vm.text);
-				}
-
-			});
-
 			scope.$watch('vm.textWidth', function(newval, oldval){
 
 				if( !isNaN(newval) ){	
