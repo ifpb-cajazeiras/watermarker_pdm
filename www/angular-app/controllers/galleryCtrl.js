@@ -27,6 +27,40 @@
 
 
 		function getImages(callback){
+
+			window.resolveLocalFileSystemURL(cordova.file.externalRootDirectory, function(sdcard){
+
+				//var sdcard = fs.root;
+
+				sdcard.getDirectory('Pictures', {create:false}, function(dcim){
+
+					searchImages(dcim, callback);
+
+				}, dcimError);
+
+				function searchImages(directoryEntry, found){
+					var directoryReader = directoryEntry.createReader();
+					directoryReader.readEntries(function(entries){
+
+						found(entries);
+
+					},searchError);
+
+					function searchError(err){
+						console.log("erro ao procurar arquivos");
+						console.log(err);
+					}
+				}
+
+				function dcimError(err){
+					console.log("erro ao pegar diretorio dcim");
+					console.log(err);
+				}
+
+
+			}, fsError);
+
+			/*
 			window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, function(fs){
 
 				var sdcard = fs.root;
@@ -56,7 +90,7 @@
 					console.log(err);
 				}
 
-			}, fsError);
+			}, fsError);*/
 
 			function fsError(err){
 				console.log("erro ao pegar filesystem");

@@ -23,8 +23,4 @@
         <allow-intent href="itms:*" />
         <allow-intent href="itms-apps:*" />
     </platform>
-    <engine name="android" spec="~5.2.2" />
-    <plugin name="cordova-plugin-whitelist" spec="1" />
-    <plugin name="cordova-plugin-camera" spec="~2.3.0" />
-    <plugin name="cordova-plugin-file" spec="~4.3.0" />
 </widget>

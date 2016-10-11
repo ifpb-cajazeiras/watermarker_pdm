@@ -13,6 +13,8 @@
 		vm.lastPicture = null;
 		vm.text = "";
 		vm.pictureName = ""; 
+		vm.fontSize = 130;
+		vm.textWidth = 300;
 
 		vm.takePicture = takePicture;
 
@@ -63,13 +65,23 @@
 
 			function getPictureFolder(callback){
 
+				window.resolveLocalFileSystemURL(cordova.file.externalRootDirectory, function(fileSys){
+
+					console.log("fileSys", fileSys);
+					fileSys.getDirectory( myFolderApp,
+						{create:true, exclusive: false},
+						callback,resOnError);
+
+
+				}, resOnError);
+				/*
 				window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, function(fileSys) { 
 					console.log("fileSys", fileSys);
 					fileSys.root.getDirectory( myFolderApp,
 						{create:true, exclusive: false},
 						callback,resOnError);
 
-				}, resOnError);
+				}, resOnError);*/
 
 			}
 
