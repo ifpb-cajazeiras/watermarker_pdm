@@ -16,7 +16,7 @@
 
 		vm.takePicture = takePicture;
 
-		vm.savePicture = saveBase64Img;
+		vm.savePicture = savePicture;
 
 		function pictureTaken(imgData){
 			$scope.$apply(function(){
@@ -62,30 +62,101 @@
 
 			} );
 		}
-		/*
+		
+		function convertBase64ToFile(data, callback){
+
+			var imgData = data.replace("data:image/jpeg;base64,", "");
+			//var the_file = new Blob([window.atob(imgData)],  {type: 'image/png', encoding: 'utf-8'});
+
+			b64toBlob(imgData, callback);
+
+			function b64toBlob(b64Data, callback ) {
+			    var contentType = 'image/png';
+			    var sliceSize = 512;
+
+			    var byteCharacters = atob(b64Data);
+			    var byteArrays = [];
+
+			    for (var offset = 0; offset < byteCharacters.length; offset += sliceSize) {
+			        var slice = byteCharacters.slice(offset, offset + sliceSize);
+
+			        var byteNumbers = new Array(slice.length);
+			        for (var i = 0; i < slice.length; i++) {
+			            byteNumbers[i] = slice.charCodeAt(i);
+			        }
+
+			        var byteArray = new Uint8Array(byteNumbers);
+
+			        byteArrays.push(byteArray);
+			    }
+
+			    var blob = new Blob(byteArrays, {type: contentType});
+			    callback(blob);
+			}
+			
+		}
+
+		
+
+		function decodeBase64Image(data, callback){
+			var imgData = data.replace("data:image/jpeg;base64,", "");
+			callback( new Buffer(imgData, 'base64') );
+		}
+
 		function savePicture(){
-			var newFileName = vm.pictureName + ".jpg";
+			var newFileName = vm.pictureName + ".png";
 			var myFolderApp = "Pictures";
 
-			save();
+			//var imgData = vm.picture.replace("data:image/jpeg;base64,", "");
+			//var the_file = new Blob([window.atob(imgData)],  {type: 'image/png', encoding: 'utf-8'});
 
-			function save(){
-				window.resolveLocalFileSystemURL(vm.lastPicture, resolveOnSuccess, resOnError);
-			}
 
-			function resolveOnSuccess(entry){
-				console.log("resolveOnSuccess");
+
+			//save();
+
+			/*function save(){
+				window.resolveLocalFileSystemURL(cordova.file.dataDirectory, resolveOnSuccess, resOnError);
+			}*/
+
+			getPictureFolder(function(pictureFolder){
+
+				writeFileInDirectory(pictureFolder);
+
+			});
+
+			function getPictureFolder(callback){
+
 				window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, function(fileSys) { 
 					console.log("fileSys", fileSys);
 					fileSys.root.getDirectory( myFolderApp,
 						{create:true, exclusive: false},
-						function(directory) {
-							console.log("vai mover");
-							entry.moveTo(directory, newFileName,  successMove, resOnError);
-							console.log("moveu");
-						},resOnError);
+						callback,resOnError);
 
 				}, resOnError);
+
+			}
+
+			function writeFileInDirectory(dir){
+				
+				dir.getFile(newFileName, {create:true}, function(file){
+
+					console.log("criou arquivo vazio");
+
+					convertBase64ToFile(vm.picture, function(pngBlob){
+
+						file.createWriter(function(fw){
+
+							fw.seek(fw.length);
+							fw.write(pngBlob);
+							console.log("salvou arquivo");
+
+						}, function(err){
+							console.log("falha ao criar writer", err);
+						});
+
+					});
+
+				});
 
 			}
 
@@ -99,7 +170,7 @@
 				console.log(error);
 			}
 
-		}*/
+		}
 
 	}
 

@@ -24,7 +24,7 @@
 
 					if(scope.vm.picture){
 						
-						$("#pic").watermark({
+						$(".pic").watermark({
 							text:newval,
 							gravity:'nw',
 							textSize:32,

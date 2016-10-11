@@ -13,6 +13,11 @@
 
 			console.log("encontrou "+ files.length + " arquivos");
 
+			files.forEach(function(f){
+
+				console.log(f);
+
+			});
 			
 			$scope.$apply(function(){
 				vm.images = files;
@@ -25,7 +30,7 @@
 			window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, function(fs){
 
 				var sdcard = fs.root;
-				
+
 				sdcard.getDirectory('Pictures', {create:false}, function(dcim){
 
 					searchImages(dcim, callback);
