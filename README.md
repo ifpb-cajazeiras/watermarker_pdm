@@ -36,6 +36,8 @@ cordova-plugin-camera
 		2-Mova o arquivo watermarker.apk (encontrado na pasta APK) para algum diretório do seu android
 
 		3-Usando o android, execute o apk para instalar o app. 
+		
+		4-O nome do app instalado é 'HelloCordova'
 
 
 **Como fazer build**
